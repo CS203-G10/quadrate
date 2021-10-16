@@ -3,6 +3,7 @@ package cs203t10.quadrate.user;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -13,7 +14,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public User createUser(@RequestBody User user) {
+    public User createUser(@RequestBody @Valid User user) {
         return userService.createUser(user);
     }
 
@@ -28,7 +29,7 @@ public class UserController {
     }
 
     @PutMapping("/{username}")
-    public User updateUser(@PathVariable String username, @RequestBody User user) {
+    public User updateUser(@PathVariable String username, @RequestBody @Valid User user) {
         return userService.updateUser(username, user);
     }
 

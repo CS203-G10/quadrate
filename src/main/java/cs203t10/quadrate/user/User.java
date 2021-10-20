@@ -4,26 +4,28 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(indexes = @Index(columnList = "username"))
+@Table(indexes = @Index(columnList = "username", unique = true))
 public class User {
     @Id @GeneratedValue
     private Long id;
 
-    @NotNull
+    @NotBlank(message = "Username cannot be blank")
     private String username;
 
-    @NotNull
+    @Length(message = "Password must be at least 8 characters in length", min = 8)
+    @NotBlank(message = "Password cannot be blank")
     private String password;
 
-    @NotNull
     private String role;
 
     public User(String username) {

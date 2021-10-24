@@ -1,0 +1,89 @@
+#Interval
+
+###
+POST http://localhost:8080/api/user
+Content-Type: application/json
+Authorization: Basic admin password
+
+{
+  "username": "yuxuan",
+  "password": "12345678",
+  "role": "User"
+}
+
+# ###
+# GET http://localhost:8080/api/user/yuxuan
+# Authorization: Basic admin password
+
+###
+POST http://localhost:8080/api/location
+Content-Type: application/json
+Authorization: Basic admin password
+
+{
+  "name": "Desk 1",
+  "capacity": 1,
+  "bookable": true
+}
+
+# ###
+# GET http://localhost:8080/api/location
+# Authorization: Basic admin password
+
+###
+POST http://localhost:8080/api/interval
+Content-Type: application/json
+Authorization: Basic yuxuan 12345678
+
+{
+  "startTime": "2021-10-24T20:00:00.000+00:00",
+  "endTime" : "2021-10-24T22:00:00.000+00:00",
+  "type": "Booking",
+  "user": {
+    "id": 1,
+    "username": "yuxuan",
+    "password": "12345678",
+    "role": "User"
+  },
+  "location": {
+    "id": 1,
+    "name": "Desk 1",
+    "capacity": 1,
+    "bookable": true
+  }
+}
+
+###
+GET http://localhost:8080/api/interval
+Authorization: Basic yuxuan 12345678
+
+###
+GET http://localhost:8080/api/interval/1
+Authorization: Basic admin password
+
+###
+PUT http://localhost:8080/api/interval/1
+Content-Type: application/json
+Authorization: Basic yuxuan 12345678
+
+{
+  "startTime": "2021-10-24T14:00:00.000+00:00",
+  "endTime" : "2021-10-24T20:00:00.000+00:00",
+  "type": "Booking",
+  "user": {
+    "id": 1,
+    "username": "yuxuan",
+    "password": "12345678",
+    "role": "User"
+  },
+  "location": {
+    "id": 1,
+    "name": "Desk 1",
+    "capacity": 1,
+    "bookable": true
+  }
+}
+
+###
+DELETE http://localhost:8080/api/interval/1
+Authorization: Basic yuxuan 12345678

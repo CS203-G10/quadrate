@@ -8,6 +8,11 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
+import cs203t10.quadrate.interval.Interval;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+// import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Getter
@@ -16,7 +21,8 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @Table(indexes = @Index(columnList = "username", unique = true))
 public class User {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank(message = "Username cannot be blank")
@@ -28,7 +34,20 @@ public class User {
 
     private String role;
 
+    @JsonManagedReference(value = "user")
+    // @JsonBackReference
+    // @JsonIgnore
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<Interval> intervals;
+
     public User(String username) {
         this.username = username;
+    }
+
+    public User(Long id, String username, String password, String role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
     }
 }

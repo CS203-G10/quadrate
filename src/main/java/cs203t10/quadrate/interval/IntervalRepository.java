@@ -27,7 +27,7 @@ public interface IntervalRepository extends JpaRepository<Interval, Long> {
     // intervals
     // as well as the existed starttime and endtime do not intercept into newly
     // added interval
-    @Query("SELECT i FROM Interval i WHERE id != :id AND location_id = :location_id AND type = :type AND ((:starttime >= start_time AND :starttime < end_time) OR (:endtime > start_time AND :endtime <= end_time) OR (start_time >= :starttime AND start_time < :endtime) OR (end_time > :starttime AND end_time <= :endtime))")
+    @Query("SELECT i FROM Interval i WHERE (id <> :id OR :id IS NULL) AND location_id = :location_id AND type = :type AND ((:starttime >= start_time AND :starttime < end_time) OR (:endtime > start_time AND :endtime <= end_time) OR (start_time >= :starttime AND start_time < :endtime) OR (end_time > :starttime AND end_time <= :endtime))")
     List<Interval> findConflictedIntervals(@Param("location_id") Long locationId,
             @Param("starttime") Timestamp startTime, @Param("endtime") Timestamp endTime, @Param("type") String Type,
             @Param("id") Long id);

@@ -11,9 +11,9 @@ Authorization: Basic admin password
   "role": "User"
 }
 
-# ###
-# GET http://localhost:8080/api/user/yuxuan
-# Authorization: Basic admin password
+###
+GET http://localhost:8080/api/user/yuxuan
+Authorization: Basic admin password
 
 ###
 POST http://localhost:8080/api/location
@@ -36,8 +36,8 @@ Content-Type: application/json
 Authorization: Basic yuxuan 12345678
 
 {
-  "startTime": "2021-10-24T20:00:00.000+00:00",
-  "endTime" : "2021-10-24T22:00:00.000+00:00",
+  "startTime": "2021-10-24T16:00:00.000+00:00",
+  "endTime" : "2021-10-24T20:00:00.000+00:00",
   "type": "Booking",
   "user": {
     "id": 1,
@@ -67,8 +67,8 @@ Content-Type: application/json
 Authorization: Basic yuxuan 12345678
 
 {
-  "startTime": "2021-10-24T14:00:00.000+00:00",
-  "endTime" : "2021-10-24T20:00:00.000+00:00",
+  "startTime": "2021-10-24T12:00:00.000+00:00",
+  "endTime" : "2021-10-24T17:00:00.000+00:00",
   "type": "Booking",
   "user": {
     "id": 1,
@@ -85,5 +85,5 @@ Authorization: Basic yuxuan 12345678
 }
 
 ###
-DELETE http://localhost:8080/api/interval/1
+DELETE http://localhost:8080/api/interval/2
 Authorization: Basic yuxuan 12345678

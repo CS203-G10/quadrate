@@ -1,6 +1,7 @@
 package cs203t10.quadrate.interval;
 
 import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.Setter;
 import lombok.Getter;
 import lombok.ToString;
@@ -9,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 // import com.fasterxml.jackson.annotation.JsonIgnore;
 // import javax.persistence.*;
 
@@ -22,15 +24,18 @@ import java.sql.Timestamp;
 @Setter
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
 public class Interval {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss ZZZZ")
     private Timestamp startTime;
 
     @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss ZZZZ")
     private Timestamp endTime;
 
     // maybe can add something similar to user ROLE instead of string input

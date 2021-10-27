@@ -1,5 +1,7 @@
 package cs203t10.quadrate.user;
 
+import cs203t10.quadrate.message.Message;
+import cs203t10.quadrate.notification.Notification;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,6 +42,28 @@ public class User {
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Interval> intervals;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "sender")
+    private List<Message> sentMessages;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "updater")
+    private List<Message> updatedMessages;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "recipient", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Notification> notifications;
+
+    @PreRemove
+    private void preRemove() {
+        for (Message message : sentMessages) {
+            message.setSender(null);
+        }
+        for (Message message : updatedMessages) {
+            message.setUpdater(null);
+        }
+    }
 
     public User(String username) {
         this.username = username;

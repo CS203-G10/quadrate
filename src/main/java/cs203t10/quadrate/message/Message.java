@@ -11,6 +11,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,10 +31,10 @@ public class Message {
     private String content;
 
     @CreationTimestamp
-    private LocalDateTime publishDateTime;
+    private Timestamp publishDateTime;
 
     @CreationTimestamp
-    private LocalDateTime updateDateTime;
+    private Timestamp updateDateTime;
 
     @NotNull
     private int target;
@@ -52,7 +53,7 @@ public class Message {
     @JsonIgnore
     @OneToMany(mappedBy = "message", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Notification> notifications;
-//
+
 //    public Message(String subject, String content, int target, int type){
 //        this.subject = subject;
 //        this.content = content;

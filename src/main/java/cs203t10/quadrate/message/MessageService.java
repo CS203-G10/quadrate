@@ -9,6 +9,8 @@ import cs203t10.quadrate.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -43,10 +45,14 @@ public class MessageService {
         Message messageFound = messageRepository.findById(id).orElseThrow(() -> new MessageNotFoundException());
         messageFound.setSubject(message.getSubject());
         messageFound.setContent(message.getContent());
-        messageFound.setUpdateDateTime(LocalDateTime.now());
+        messageFound.setUpdateDateTime(new Timestamp(System.currentTimeMillis()));
         // TODO: record updater, need DTO
+        messageFound = messageRepository.save(messageFound);
 
-        return messageRepository.save(messageFound);
+        // mark unread updated notification
+        notificationService.markUnread(messageFound);
+
+        return messageFound;
     }
 
     public Message deleteMessage(Long id) throws MessageNotFoundException{

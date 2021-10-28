@@ -35,7 +35,7 @@ public class UserService {
             throw new UserNotFoundException(username);
         }
 
-        if (userRepository.existsByUsername(user.getUsername())) {
+        if (!user.getUsername().equals(username) && userRepository.existsByUsername(user.getUsername())) {
             throw new UserExistsException(user.getUsername());
         }
 

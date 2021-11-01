@@ -37,6 +37,10 @@ public class IntervalService {
         return intervalRepository.findById(id).orElseThrow(() -> new IntervalNotFoundException(id));
     }
 
+    public List<Interval> getIntervalsByType(String type) {
+        return intervalRepository.findByType(type);
+    }
+
     @Transactional
     public Interval updateInterval(Long id, Interval interval) {
         if (!intervalRepository.existsById(id)) {
@@ -54,8 +58,11 @@ public class IntervalService {
                     interval.getEndTime());
         }
 
+        // Timestamp startTime, Timestamp endTime, String type, boolean isRepeated,
+        // Integer priority, User user, List<User> attendees, Location location
         intervalRepository.updateInterval(id, interval.getStartTime(), interval.getEndTime(), interval.getType(),
-                interval.getUser().getId(), interval.getLocation().getId());
+                interval.isRepeated(), interval.getPriority(), interval.getUser().getId(),
+                interval.getLocation().getId());
 
         return getInterval(id);
     }

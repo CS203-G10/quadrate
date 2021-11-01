@@ -33,6 +33,11 @@ public class IntervalController {
         return intervalService.getAllIntervals();
     }
 
+    @GetMapping("/type/{type}")
+    public List<Interval> getIntervalsByType(@PathVariable("type") String type) {
+        return intervalService.getIntervalsByType(type);
+    }
+
     @GetMapping("/{id}")
     public Interval getInterval(@PathVariable("id") Long id) {
         return intervalService.getInterval(id);

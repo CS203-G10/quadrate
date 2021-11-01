@@ -10,7 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 import cs203t10.quadrate.interval.Interval;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+// import com.fasterxml.jackson.annotation.JsonManagedReference;
 // import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -34,7 +34,10 @@ public class User {
 
     private String role;
 
-    @JsonManagedReference(value = "user")
+    // not sure is the data type ok
+    private Double minHr;
+
+    // @JsonManagedReference(value = "user")
     // @JsonBackReference
     // @JsonIgnore
     @JsonIgnore

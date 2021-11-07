@@ -24,6 +24,8 @@ public class IntervalService {
             throws IntervalExistsException, UserNotFoundException, LocationNotFoundException {
         // check if location exists
         locationService.getLocation(interval.getLocation().getId());
+        // check if creator exists
+        userService.getUser(interval.getCreator().getUsername());
 
         // check for confliction for every attendees
         for (User attendee : interval.getAttendees()) {
@@ -58,10 +60,12 @@ public class IntervalService {
     @Transactional
     public Interval updateInterval(Long id, Interval interval) throws IntervalNotFoundException,
             IntervalExistsException, UserNotFoundException, LocationNotFoundException {
-        // check if location exists
-        locationService.getLocation(interval.getLocation().getId());
         // check if interval exists
         Interval existedInterval = getInterval(id);
+        // check if location exists
+        locationService.getLocation(interval.getLocation().getId());
+        // check if creator exists
+        userService.getUser(interval.getCreator().getUsername());
 
         // check any confliction for all attendees
         for (User attendee : interval.getAttendees()) {
@@ -87,9 +91,8 @@ public class IntervalService {
         existedInterval.getAttendees().clear();
         existedInterval.getAttendees().addAll(interval.getAttendees());
         existedInterval.setLocation(interval.getLocation());
-        intervalRepository.save(existedInterval);
 
-        return getInterval(id);
+        return intervalRepository.save(existedInterval);
     }
 
     @Transactional

@@ -142,6 +142,11 @@ Authorization: Basic yuxuan 12345678
     "username": "yuxuan",
     "password": "12345678",
     "role": "User"
+  },{
+    "id": 2,
+    "username": "yuki",
+    "password": "12345678",
+    "role": "User"
   }],
   "location": {
     "id": 1,

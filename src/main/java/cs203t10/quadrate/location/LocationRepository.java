@@ -10,9 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface LocationRepository extends JpaRepository<Location, Long> {
     @Modifying
     @Query("UPDATE Location SET name = :name, capacity = :capacity, bookable = :bookable, parentLocation = :parent_id WHERE id = :id")
-    Integer updateLocation(@Param("id") Long id,
-                           @Param("name") String name,
-                           @Param("capacity") Integer capacity,
-                           @Param("bookable") Boolean bookable,
-                           @Param("parent_id") Long parentLocationId);
+    Integer updateLocation(@Param("id") Long id, @Param("name") String name, @Param("capacity") Integer capacity,
+            @Param("bookable") Boolean bookable, @Param("parent_id") Long parentLocationId);
 }

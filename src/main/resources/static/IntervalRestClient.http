@@ -12,6 +12,17 @@ Authorization: Basic admin password
 }
 
 ###
+POST http://localhost:8080/api/user
+Content-Type: application/json
+Authorization: Basic admin password
+
+{
+  "username": "yuki",
+  "password": "12345678",
+  "role": "User"
+}
+
+###
 GET http://localhost:8080/api/user/yuxuan
 Authorization: Basic admin password
 
@@ -41,12 +52,18 @@ Authorization: Basic yuxuan 12345678
   "type": "Preference",
   "isRepeated": true,
   "priority": 0,
-  "user": {
+  "creator": {
     "id": 1,
     "username": "yuxuan",
     "password": "12345678",
     "role": "User"
   },
+  "attendees": [{
+    "id": 1,
+    "username": "yuxuan",
+    "password": "12345678",
+    "role": "User"
+  }],
   "location": {
     "id": 1,
     "name": "Desk 1",
@@ -63,15 +80,26 @@ Authorization: Basic yuxuan 12345678
 {
   "startTime": "2021-10-24 16:30:00 +0000",
   "endTime" : "2021-10-24 18:30:00 +0000",
-  "type": "Fixed",
+  "type": "Preference",
   "isRepeated": true,
   "priority": 0,
-  "user": {
+  "creator": {
     "id": 1,
     "username": "yuxuan",
     "password": "12345678",
     "role": "User"
   },
+  "attendees": [{
+    "id": 1,
+    "username": "yuxuan",
+    "password": "12345678",
+    "role": "User"
+  },{
+    "id": 2,
+    "username": "yuki",
+    "password": "12345678",
+    "role": "User"
+  }],
   "location": {
     "id": 1,
     "name": "Desk 1",
@@ -98,17 +126,23 @@ Content-Type: application/json
 Authorization: Basic yuxuan 12345678
 
 {
-  "startTime": "2021-10-24 10:30:00 +0000",
-  "endTime" : "2021-10-24 12:30:00 +0000",
+  "startTime": "2021-10-24 12:30:00 +0000",
+  "endTime" : "2021-10-24 16:30:00 +0000",
   "type": "Preference",
-  "isRepeated": false,
-  "priority": 2,
-  "user": {
+  "isRepeated": true,
+  "priority": 1000,
+  "creator": {
     "id": 1,
     "username": "yuxuan",
     "password": "12345678",
     "role": "User"
   },
+  "attendees": [{
+    "id": 1,
+    "username": "yuxuan",
+    "password": "12345678",
+    "role": "User"
+  }],
   "location": {
     "id": 1,
     "name": "Desk 1",

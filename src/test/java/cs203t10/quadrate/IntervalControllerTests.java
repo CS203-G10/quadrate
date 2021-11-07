@@ -13,7 +13,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.List;
+import java.util.*;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
@@ -37,9 +37,9 @@ public class IntervalControllerTests {
     @Test
     void createInterval_Ok() throws Exception {
         Interval input = new Interval(null, getStartTime(), getEndTime(), "Preference", true, 0, getUser(),
-                getLocation());
+                getAttendees(), getLocation());
         Interval output = new Interval(1L, getStartTime(), getEndTime(), "Preference", true, 0, getUser(),
-                getLocation());
+                getAttendees(), getLocation());
 
         when(intervalService.createInterval(any(Interval.class))).thenAnswer(i -> {
             Interval interval = i.getArgument(0, Interval.class);
@@ -59,8 +59,10 @@ public class IntervalControllerTests {
     @Test
     void getAllIntervals_Ok() throws Exception {
         List<Interval> intervals = List.of(
-                new Interval(getStartTime(), getEndTime(), "Preference", true, 0, getUser(), getLocation()),
-                new Interval(getStartTime(), getEndTime(), "Preference", false, 1, getUser(), getLocation()));
+                new Interval(getStartTime(), getEndTime(), "Preference", true, 0, getUser(), getAttendees(),
+                        getLocation()),
+                new Interval(getStartTime(), getEndTime(), "Preference", false, 1, getUser(), getAttendees(),
+                        getLocation()));
         // Timestamp startTime, Timestamp endTime, String type, boolean isRepeated,
         // Integer priority, User user, List<User> attendees, Location location
 
@@ -72,7 +74,8 @@ public class IntervalControllerTests {
 
     @Test
     void getInterval_Ok() throws Exception {
-        Interval interval = new Interval(getStartTime(), getEndTime(), "Preference", true, 0, getUser(), getLocation());
+        Interval interval = new Interval(getStartTime(), getEndTime(), "Preference", true, 0, getUser(), getAttendees(),
+                getLocation());
 
         when(intervalService.getInterval(any(Long.class))).thenReturn(interval);
 
@@ -83,9 +86,9 @@ public class IntervalControllerTests {
     @Test
     void updateInterval_Ok() throws Exception {
         Interval oldInterval = new Interval(1L, getStartTime(), getEndTime(), "Preference", true, 0, getUser(),
-                getLocation());
+                getAttendees(), getLocation());
         Interval newInterval = new Interval(1L, getStartTime(), getNewEndTime(), "Preference", true, 0, getUser(),
-                getLocation());
+                getAttendees(), getLocation());
 
         when(intervalService.updateInterval(any(Long.class), any(Interval.class))).thenAnswer(i -> {
             Interval interval = i.getArgument(1, Interval.class);
@@ -105,7 +108,7 @@ public class IntervalControllerTests {
     @Test
     void deleteInterval_OK() throws Exception {
         Interval interval = new Interval(1L, getStartTime(), getEndTime(), "Preference", true, 0, getUser(),
-                getLocation());
+                getAttendees(), getLocation());
 
         when(intervalService.removeInterval(any(Long.class))).thenReturn(interval);
 
@@ -151,7 +154,7 @@ public class IntervalControllerTests {
         return new Location("Desk 1", 1, true);
     }
 
-    private List<User> getAttendees() {
-        return List.of(new User("YuXuan"), new User("Joy"), new User("Yuki"));
+    private Set<User> getAttendees() {
+        return Set.of(new User("YuXuan"), new User("Joy"), new User("Yuki"));
     }
 }

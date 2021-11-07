@@ -18,11 +18,6 @@ import java.util.List;
 public class IntervalController {
     private final IntervalService intervalService;
 
-    // @Autowired
-    // public IntervalController(IntervalService intervalService) {
-    // this.intervalService = intervalService;
-    // }
-
     @PostMapping
     public Interval createInterval(@RequestBody Interval interval) {
         return intervalService.createInterval(interval);

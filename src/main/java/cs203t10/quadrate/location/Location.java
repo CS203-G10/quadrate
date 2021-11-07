@@ -45,7 +45,6 @@ public class Location {
 
     // @JsonBackReference(value = "location")
     @JsonIgnore
-    // @JsonBackReference
     @OneToMany(mappedBy = "location")
     private List<Interval> intervals;
 

@@ -1,31 +1,45 @@
 package cs203t10.quadrate.interval;
 
-import cs203t10.quadrate.exception.IntervalNotFoundException;
-import cs203t10.quadrate.exception.IntervalExistsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
-// import java.sql.Timestamp;
-import java.util.List;
+import java.util.*;
+
+import cs203t10.quadrate.exception.IntervalNotFoundException;
+import cs203t10.quadrate.exception.LocationNotFoundException;
+import cs203t10.quadrate.exception.UserNotFoundException;
+import cs203t10.quadrate.exception.IntervalExistsException;
+import cs203t10.quadrate.user.*;
+import cs203t10.quadrate.location.*;
 
 @Service
 @RequiredArgsConstructor
 public class IntervalService {
 
     private final IntervalRepository intervalRepository;
+    private final UserService userService;
+    private final LocationService locationService;
 
-    public Interval createInterval(Interval interval) throws IntervalExistsException {
-        List<Interval> conflictedInterval = intervalRepository.findConflictedIntervals(interval.getLocation().getId(),
-                interval.getStartTime(), interval.getEndTime(), interval.getType(), interval.getId());
+    public Interval createInterval(Interval interval)
+            throws IntervalExistsException, UserNotFoundException, LocationNotFoundException {
+        // check if location exists
+        locationService.getLocation(interval.getLocation().getId());
 
-        System.out.println(conflictedInterval.size());
-        System.out.println(interval);
+        // check for confliction for every attendees
+        for (User attendee : interval.getAttendees()) {
+            // chech whether user exists
+            userService.getUser(attendee.getUsername());
 
-        if (!conflictedInterval.isEmpty()) {
-            throw new IntervalExistsException(interval.getLocation().getName(), interval.getStartTime(),
-                    interval.getEndTime());
+            List<Interval> conflictedInterval = intervalRepository.findConflictedIntervals(interval.getId(),
+                    interval.getLocation(), interval.getStartTime(), interval.getEndTime(), interval.getType(),
+                    interval.getIsRepeated(), attendee.getId());
+
+            if (!conflictedInterval.isEmpty()) {
+                throw new IntervalExistsException(interval.getLocation().getName(), interval.getStartTime(),
+                        interval.getEndTime());
+            }
         }
+
         return intervalRepository.save(interval);
     }
 
@@ -42,27 +56,38 @@ public class IntervalService {
     }
 
     @Transactional
-    public Interval updateInterval(Long id, Interval interval) {
-        if (!intervalRepository.existsById(id)) {
-            throw new IntervalNotFoundException(id);
+    public Interval updateInterval(Long id, Interval interval) throws IntervalNotFoundException,
+            IntervalExistsException, UserNotFoundException, LocationNotFoundException {
+        // check if location exists
+        locationService.getLocation(interval.getLocation().getId());
+        // check if interval exists
+        Interval existedInterval = getInterval(id);
+
+        // check any confliction for all attendees
+        for (User attendee : interval.getAttendees()) {
+            // chech whether user exists
+            userService.getUser(attendee.getUsername());
+
+            List<Interval> conflictedInterval = intervalRepository.findConflictedIntervals(id, interval.getLocation(),
+                    interval.getStartTime(), interval.getEndTime(), interval.getType(), interval.getIsRepeated(),
+                    attendee.getId());
+
+            if (conflictedInterval.size() != 0) {
+                throw new IntervalExistsException(interval.getLocation().getName(), interval.getStartTime(),
+                        interval.getEndTime());
+            }
         }
 
-        List<Interval> conflictedInterval = intervalRepository.findConflictedIntervals(interval.getLocation().getId(),
-                interval.getStartTime(), interval.getEndTime(), interval.getType(), id);
-
-        System.out.println(conflictedInterval.size());
-        System.out.println(interval);
-
-        if (conflictedInterval.size() != 0) {
-            throw new IntervalExistsException(interval.getLocation().getName(), interval.getStartTime(),
-                    interval.getEndTime());
-        }
-
-        // Timestamp startTime, Timestamp endTime, String type, boolean isRepeated,
-        // Integer priority, User user, List<User> attendees, Location location
-        intervalRepository.updateInterval(id, interval.getStartTime(), interval.getEndTime(), interval.getType(),
-                interval.isRepeated(), interval.getPriority(), interval.getUser().getId(),
-                interval.getLocation().getId());
+        existedInterval.setStartTime(interval.getStartTime());
+        existedInterval.setEndTime(interval.getEndTime());
+        existedInterval.setType(interval.getType());
+        existedInterval.setIsRepeated(interval.getIsRepeated());
+        existedInterval.setPriority(interval.getPriority());
+        existedInterval.setCreator(interval.getCreator());
+        existedInterval.getAttendees().clear();
+        existedInterval.getAttendees().addAll(interval.getAttendees());
+        existedInterval.setLocation(interval.getLocation());
+        intervalRepository.save(existedInterval);
 
         return getInterval(id);
     }

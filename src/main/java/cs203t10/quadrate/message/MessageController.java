@@ -13,9 +13,9 @@ public class MessageController {
 
     private final MessageService messageService;
 
-    @PostMapping("/{username}")
-    public Message createMessage(@PathVariable String username, @RequestBody @Valid Message message) {
-        return messageService.createMessage(username, message);
+    @PostMapping
+    public Message createMessage(@RequestBody @Valid Message message) {
+        return messageService.createMessage(message);
     }
 
     @GetMapping

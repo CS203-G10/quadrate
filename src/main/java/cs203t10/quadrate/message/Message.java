@@ -36,28 +36,32 @@ public class Message {
     @CreationTimestamp
     private Timestamp updateDateTime;
 
+    /*
+    * target:
+    * 1 - admin only
+    * 2 - users
+    */
     @NotNull
     private int target;
 
+    /*
+     * type:
+     * 1 - notification
+     * 2 - announcement/news
+     */
     @NotNull
     private int type;
 
+    @NotNull
+    private String username;
+
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "sender_id")
     private User sender;
-
-    @ManyToOne
-    @JoinColumn(name = "updater_id")
-    private User updater;
 
     @JsonIgnore
     @OneToMany(mappedBy = "message", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Notification> notifications;
 
-//    public Message(String subject, String content, int target, int type){
-//        this.subject = subject;
-//        this.content = content;
-//        this.target = target;
-//        this.type = type;
-//    }
 }

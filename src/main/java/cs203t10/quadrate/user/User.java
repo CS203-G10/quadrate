@@ -48,10 +48,6 @@ public class User {
     private List<Message> sentMessages;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "updater")
-    private List<Message> updatedMessages;
-
-    @JsonIgnore
     @OneToMany(mappedBy = "recipient", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Notification> notifications;
 
@@ -59,9 +55,6 @@ public class User {
     private void preRemove() {
         for (Message message : sentMessages) {
             message.setSender(null);
-        }
-        for (Message message : updatedMessages) {
-            message.setUpdater(null);
         }
     }
 

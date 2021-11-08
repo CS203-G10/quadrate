@@ -18,11 +18,6 @@ import java.util.List;
 public class IntervalController {
     private final IntervalService intervalService;
 
-    // @Autowired
-    // public IntervalController(IntervalService intervalService) {
-    // this.intervalService = intervalService;
-    // }
-
     @PostMapping
     public Interval createInterval(@RequestBody Interval interval) {
         return intervalService.createInterval(interval);
@@ -31,6 +26,11 @@ public class IntervalController {
     @GetMapping
     public List<Interval> getAllIntervals() {
         return intervalService.getAllIntervals();
+    }
+
+    @GetMapping("/type/{type}")
+    public List<Interval> getIntervalsByType(@PathVariable("type") String type) {
+        return intervalService.getIntervalsByType(type);
     }
 
     @GetMapping("/{id}")

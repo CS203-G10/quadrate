@@ -10,9 +10,10 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.List;
+import java.util.*;
 import cs203t10.quadrate.interval.Interval;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+// import cs203t10.quadrate.userinterval.*;
+// import com.fasterxml.jackson.annotation.JsonManagedReference;
 // import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -36,12 +37,28 @@ public class User {
 
     private String role;
 
-    @JsonManagedReference(value = "user")
+    // not sure is the data type ok
+    private Double minHr;
+
+    private Integer priority;
+
+    // @JsonManagedReference(value = "user")
     // @JsonBackReference
-    // @JsonIgnore
     @JsonIgnore
-    @OneToMany(mappedBy = "user")
-    private List<Interval> intervals;
+    @OneToMany(mappedBy = "creator")
+    private List<Interval> createdIntervals;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "attendees", cascade = CascadeType.ALL)
+    private Set<Interval> attendedIntervals = new HashSet<>();
+
+    // @JsonIgnore
+    // @ManyToMany(mappedBy = "user")
+    // private List<UserInterval> userIntervals;
+
+    // @JsonIgnore
+    // @ManyToMany(mappedBy = "user")
+    // private List<Interval> attendedIntervals;
 
     @JsonIgnore
     @OneToMany(mappedBy = "sender")

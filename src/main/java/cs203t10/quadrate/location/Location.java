@@ -41,7 +41,7 @@ public class Location {
     // @JsonManagedReference(value = "location_parant_child")
     @JsonIgnore
     @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
-    private List<Location> childrenLocation;
+    private List<Location> childrenLocations;
 
     // @JsonBackReference(value = "location")
     @JsonIgnore

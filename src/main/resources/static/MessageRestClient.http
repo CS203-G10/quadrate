@@ -1,0 +1,41 @@
+
+### Create a message (admin)
+POST localhost:8080/api/message/admin
+Content-Type: application/json
+Authorization: Basic admin password
+
+{
+  "subject": "Welcome users",
+  "content": "Hello my fellow users",
+  "target": 2,
+  "type": 1
+}
+
+
+### Get all messages (admin)
+GET localhost:8080/api/message/
+Authentication-Control: Basic admin password
+
+
+### Get message by message id (admin)
+GET localhost:8080/api/message/1
+Authentication-Control: Basic admin password
+
+
+
+### Update a message (admin)
+PUT localhost:8080/api/message/1
+Content-Type: application/json
+Authorization: Basic admin password
+
+{
+  "subject": "Welcome everyone",
+  "content": "Hello my fellow colleagues",
+  "target": 2,
+  "type": 1
+}
+
+
+### Delete a message (admin)
+DELETE localhost:8080/api/message/1
+Authorization: Basic admin password

@@ -9,6 +9,8 @@ import cs203t10.quadrate.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -18,6 +20,7 @@ public class MessageService {
 
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
+    private final UserService userService;
     private final NotificationService notificationService;
 
     public List<Message> getAllMessages(){
@@ -28,25 +31,29 @@ public class MessageService {
         return messageRepository.findById(id).orElseThrow(() -> new MessageNotFoundException());
     }
 
-    public Message createMessage(String username, Message message) throws UserNotFoundException {
-        return userRepository.findByUsername(username).map(user -> {
+    public Message createMessage(Message message) throws UserNotFoundException {
+            User user = userService.getUser(message.getUsername());
             message.setSender(user);
-            message.setUpdater(user);
             Message savedMessage = messageRepository.save(message);
             // create notification for target users
             notificationService.createNotification(savedMessage);
             return savedMessage;
-        }).orElseThrow(() -> new UserNotFoundException(username));
     }
 
     public Message updateMessage(Long id, Message message) throws MessageNotFoundException{
-        Message messageFound = messageRepository.findById(id).orElseThrow(() -> new MessageNotFoundException());
-        messageFound.setSubject(message.getSubject());
-        messageFound.setContent(message.getContent());
-        messageFound.setUpdateDateTime(LocalDateTime.now());
-        // TODO: record updater, need DTO
+            Message messageFound = messageRepository.findById(id).orElseThrow(() -> new MessageNotFoundException());
+            messageFound.setSubject(message.getSubject());
+            messageFound.setContent(message.getContent());
+            messageFound.setUpdateDateTime(new Timestamp(System.currentTimeMillis()));
+            User user = userService.getUser(message.getUsername());
+            messageFound.setUsername(user.getUsername());
+            messageFound.setSender(user);
+            messageFound = messageRepository.save(messageFound);
 
-        return messageRepository.save(messageFound);
+            // mark unread updated notification
+            notificationService.markUnread(messageFound);
+
+            return messageFound;
     }
 
     public Message deleteMessage(Long id) throws MessageNotFoundException{

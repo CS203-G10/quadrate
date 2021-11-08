@@ -42,6 +42,14 @@ public class NotificationService {
 
         return notificationRepository.save(notification);
     }
+
+    public void markUnread(Message message){
+            List <Notification> notificationList = notificationRepository.findByMessage(message);
+            for(Notification notification: notificationList){
+                notification.setRead(false);
+                notificationRepository.save(notification);
+        }
+    }
 //
 //    @Override
 //    public Integer countUnread(Long userId){

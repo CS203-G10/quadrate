@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.*;
+import java.sql.Timestamp;
 
 import cs203t10.quadrate.exception.IntervalNotFoundException;
 import cs203t10.quadrate.exception.LocationNotFoundException;
@@ -57,6 +58,15 @@ public class IntervalService {
 
     public List<Interval> getAllIntervals() {
         return intervalRepository.findAll();
+    }
+
+    public List<Interval> getAllIntervalsBetween(Timestamp startTime, Timestamp endTime) {
+        return intervalRepository.findAllByStartTimeBetween(startTime, endTime);
+    }
+
+    public List<Interval> getRepeatingIntervals() {
+        return intervalRepository.findByIsRepeated(true);
+
     }
 
     public Interval getInterval(Long id) throws IntervalNotFoundException {

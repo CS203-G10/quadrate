@@ -19,7 +19,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping
-    public JwtResponse createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception
+    public JwtResponse AuthenticateUser(@RequestBody JwtRequest authenticationRequest) throws Exception
     {
         String username = authenticationRequest.getUsername();
         authService.authenticate(username, authenticationRequest.getPassword());
@@ -28,6 +28,8 @@ public class AuthController {
         final String token = jwtTokenUtil.generateJwtToken(userDetails);
         return new JwtResponse(username, token);
     }
+
+
 
 
 }

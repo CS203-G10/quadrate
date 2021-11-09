@@ -15,28 +15,32 @@ import io.jsonwebtoken.*;
 public class JwtTokenUtil {
     private static final Logger logger = LoggerFactory.getLogger(JwtTokenUtil.class);
 
-    @Value("${jwt.secret}")
-    private String jwtSecret;
+    @Value("${jwt.signing.key}")
+    private String SIGNING_KEY;
 
-    @Value("${jwt.expiration}")
-    private int jwtExpirationMs;
+    @Value("${jwt.token.validity}")
+    private long TOKEN_VALIDITY;
+
+//    @Value("${jwt.authorities.key}")
+//    private String AUTHORITIES_KEY;
 
     public String generateJwtToken(UserDetails userDetails) {
         return Jwts.builder()
                 .setSubject((userDetails.getUsername()))
+//                .claim(AUTHORITIES_KEY, userDetails.getAuthorities())
                 .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .setExpiration(new Date((new Date()).getTime() + TOKEN_VALIDITY))
+                .signWith(SignatureAlgorithm.HS512, SIGNING_KEY)
                 .compact();
     }
 
     public String getUserNameFromJwtToken(String token) {
-        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+        return Jwts.parser().setSigningKey(SIGNING_KEY).parseClaimsJws(token).getBody().getSubject();
     }
 
     public boolean validateJwtToken(String authToken) {
         try {
-            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
+            Jwts.parser().setSigningKey(SIGNING_KEY).parseClaimsJws(authToken);
             return true;
         } catch (MalformedJwtException e) {
             logger.error("Invalid JWT token: {}", e.getMessage());

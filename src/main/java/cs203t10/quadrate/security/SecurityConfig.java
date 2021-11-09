@@ -54,15 +54,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 http
                 .cors()
                 .and()
-                .csrf()
-                .disable()
-                .headers()
-                .frameOptions()
-                .deny()
+                .csrf().disable()
+                .headers().frameOptions().deny()
                 .and()
                 .authorizeRequests()
                         .antMatchers("/api/authenticate").permitAll()
-                        .antMatchers("/api/Message", "/api/Message/**").hasRole("ADMIN")
+                        .antMatchers("/api/notification", "/api/notification/**").hasAnyRole("ADMIN","USER")
+                        .antMatchers("/api/user", "/api/user/**").hasRole("ADMIN")
+                        .antMatchers("/api/message", "/api/message/**").hasRole("ADMIN")
+                        //TODO: location and interval API
+
 
                 // all other requests need to be authenticated
                         .anyRequest().authenticated().and()

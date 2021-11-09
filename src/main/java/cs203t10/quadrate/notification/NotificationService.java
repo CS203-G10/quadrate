@@ -17,13 +17,27 @@ public class NotificationService {
     private final UserService userService;
 
     public void createNotification(Message message){
-        //TODO: add to targets only
-        List<User> users = userService.getAllUsers();
+        List <User> users = getTargets(message.getTarget());
         for(User user:users){
             notificationRepository.save(new Notification(user, message));
         }
     }
 
+    public List<User> getTargets(int target){
+        List<User> users = userService.getAllUsers();
+
+        // target 2: all users
+        if(target == 2) {
+            return users;
+        }
+        // target 1: admins only
+        for(User user:users){
+            if(user.getRole().equals("ROLE_USER")){
+                users.remove(user);
+            }
+        }
+        return users;
+    }
 
     public List<Notification> getAllNotifications(String username){
         User user = userService.getUser(username);

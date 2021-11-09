@@ -19,7 +19,6 @@ import java.util.List;
 public class MessageService {
 
     private final MessageRepository messageRepository;
-    private final UserRepository userRepository;
     private final UserService userService;
     private final NotificationService notificationService;
 

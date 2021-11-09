@@ -13,7 +13,7 @@ public class LocationService {
 
     private final LocationRepository locationRepository;
 
-    public Location addLocation(Location location) {
+    public Location createLocation(Location location) {
         return locationRepository.save(location);
     }
 

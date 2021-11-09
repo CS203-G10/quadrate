@@ -42,7 +42,7 @@ public class User implements UserDetails {
     private String role;
 
     // not sure is the data type ok
-    private Double minHr;
+    // private Double minHr;
 
     private Integer priority;
 

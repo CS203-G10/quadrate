@@ -1,8 +1,11 @@
+
 package cs203t10.quadrate.user;
 
 import cs203t10.quadrate.exception.UserExistsException;
 import cs203t10.quadrate.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +35,7 @@ public class UserService {
         return userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
     }
 
+    @Transactional
     public User updateUser(String username, User user) throws UserExistsException, UserNotFoundException {
         if (!userRepository.existsByUsername(username)) {
             throw new UserNotFoundException(username);
@@ -41,14 +45,15 @@ public class UserService {
             throw new UserExistsException(user.getUsername());
         }
 
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.updateUser(username, user.getUsername(), user.getPassword(), user.getRole());
         return getUser(user.getUsername());
     }
 
+    @Transactional
     public User removeUser(String username) throws UserNotFoundException {
         User user = getUser(username);
         userRepository.deleteByUsername(username);
         return user;
     }
-
 }

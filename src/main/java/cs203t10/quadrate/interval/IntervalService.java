@@ -26,7 +26,12 @@ public class IntervalService {
         // check if location exists
         locationService.getLocation(interval.getLocation().getId());
         // check if creator exists
-        userService.getUser(interval.getCreator().getUsername());
+        User u = userService.getUser(interval.getCreator().getUsername());
+
+        // check whether the creator have enough credit for the interval
+        if (u.getPriority() < interval.getPriority()) {
+            // throw new InsufficeintCreditException();
+        }
 
         // check for confliction for every attendees
         for (User attendee : interval.getAttendees()) {
@@ -43,6 +48,8 @@ public class IntervalService {
             }
         }
 
+        u.setPriority(u.getPriority() - interval.getPriority());
+        userService.updateUser(u.getUsername(), u);
         return intervalRepository.save(interval);
     }
 
@@ -60,13 +67,14 @@ public class IntervalService {
         return intervalRepository.findAll();
     }
 
-    public List<Interval> getAllIntervalsBetween(Timestamp startTime, Timestamp endTime) {
-        return intervalRepository.findAllByStartTimeBetween(startTime, endTime);
-    }
-
     public List<Interval> getRepeatingIntervals() {
         return intervalRepository.findByIsRepeated(true);
 
+    }
+
+    public List<Interval> getAllIntervalsBetween(Timestamp startTime, Timestamp endTime) {
+        System.out.println("=================get================");
+        return intervalRepository.findAllByStartTimeGreaterThanEqualAndEndTimeIsLessThanEqual(startTime, endTime);
     }
 
     public Interval getInterval(Long id) throws IntervalNotFoundException {
@@ -85,7 +93,16 @@ public class IntervalService {
         // check if location exists
         locationService.getLocation(interval.getLocation().getId());
         // check if creator exists
-        userService.getUser(interval.getCreator().getUsername());
+        User u = userService.getUser(interval.getCreator().getUsername());
+
+        // check whether the creator have enough credit for the interval
+        // 1,2 diff = -1
+        // 2,1 diff = 1
+        // 1,1 diff = 0
+        Integer diff = interval.getPriority() - existedInterval.getPriority();
+        if (diff > 0 && u.getPriority() < diff) {
+            // throw new InsufficeintCreditException();
+        }
 
         // check any confliction for all attendees
         for (User attendee : interval.getAttendees()) {
@@ -112,6 +129,9 @@ public class IntervalService {
         existedInterval.getAttendees().addAll(interval.getAttendees());
         existedInterval.setLocation(interval.getLocation());
 
+        u.setPriority(u.getPriority() - diff);
+        userService.updateUser(u.getUsername(), u);
+
         return intervalRepository.save(existedInterval);
     }
 
@@ -119,6 +139,10 @@ public class IntervalService {
     public Interval removeInterval(Long id) throws IntervalNotFoundException {
         Interval interval = getInterval(id);
         intervalRepository.deleteById(id);
+
+        User u = interval.getCreator();
+        u.setPriority(u.getPriority() + interval.getPriority());
+        userService.updateUser(u.getUsername(), u);
         return interval;
     }
 }

@@ -84,4 +84,11 @@ public class User {
         this.password = password;
         this.role = role;
     }
+
+    public User(Long id, String username, String password, String role, Integer priority) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.priority = priority;
+    }
 }

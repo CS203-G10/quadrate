@@ -8,7 +8,8 @@ Authorization: Basic admin password
 {
   "username": "yuxuan",
   "password": "12345678",
-  "role": "User"
+  "role": "User",
+  "priority": 10
 }
 
 ###
@@ -19,11 +20,12 @@ Authorization: Basic admin password
 {
   "username": "yuki",
   "password": "12345678",
-  "role": "User"
+  "role": "User",
+  "priority": 10
 }
 
 ###
-GET http://localhost:8080/api/user/yuxuan
+GET http://localhost:8080/api/user
 Authorization: Basic admin password
 
 ###
@@ -51,7 +53,7 @@ Authorization: Basic yuxuan 12345678
   "endTime" : "2021-10-24 16:30:00 +0000",
   "type": "Preference",
   "isRepeated": true,
-  "priority": 0,
+  "priority": 5,
   "creator": {
     "id": 1,
     "username": "yuxuan",
@@ -130,7 +132,7 @@ Authorization: Basic yuxuan 12345678
   "endTime" : "2021-10-24 16:30:00 +0000",
   "type": "Preference",
   "isRepeated": true,
-  "priority": 1000,
+  "priority": 1,
   "creator": {
     "id": 1,
     "username": "yuxuan",

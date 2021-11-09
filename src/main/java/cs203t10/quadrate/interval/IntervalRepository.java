@@ -16,7 +16,8 @@ import javax.validation.constraints.NotNull;
 public interface IntervalRepository extends JpaRepository<Interval, Long> {
         boolean existsById(Long id);
 
-        List<Interval> findAllByStartTimeGreaterThanEqualAndEndTimeIsLessThanEqual(Timestamp startTime, Timestamp endTime);
+        List<Interval> findAllByStartTimeGreaterThanEqualAndEndTimeIsLessThanEqual(Timestamp startTime,
+                        Timestamp endTime);
 
         List<Interval> findByIsRepeated(Boolean isRepeated);
 

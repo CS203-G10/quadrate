@@ -81,10 +81,11 @@ public class Interval implements Cloneable {
         return (endTime.getTime() - startTime.getTime()) * priority;
     }
 
-    public Long start(){
+    public Long start() {
         return startTime.getTime();
     }
-    public Long end(){
+
+    public Long end() {
         return endTime.getTime();
     }
 
@@ -96,6 +97,7 @@ public class Interval implements Cloneable {
      * Returns if this interval is adjacent to the specified interval.
      * <p>
      * Two intervals are adjacent if either one ends where the other starts.
+     * 
      * @param interval - the interval to compare this one to
      * @return if this interval is adjacent to the specified interval.
      */
@@ -125,7 +127,8 @@ public class Interval implements Cloneable {
     public Interval clone() {
         try {
             Interval clone = (Interval) super.clone();
-            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            // TODO: copy mutable state here, so the clone can't change the internals of the
+            // original
             clone.setStartTime(startTime);
             clone.setEndTime(endTime);
             clone.setType(type);
@@ -139,8 +142,6 @@ public class Interval implements Cloneable {
             throw new AssertionError();
         }
     }
-
-
 
     // public Interval(Timestamp startTime, Timestamp endTime, String type, boolean
     // isRepeated, Integer priority,

@@ -12,9 +12,9 @@ public class QuadrateApplication {
         SpringApplication.run(QuadrateApplication.class, args);
     }
 
-    @Bean
-    CommandLineRunner commandLineRunner() {
+    // @Bean
+    // CommandLineRunner commandLineRunner() {
 
-    }
+    // }
 
 }

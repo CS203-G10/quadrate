@@ -6,6 +6,7 @@ import cs203t10.quadrate.user.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -60,18 +61,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                         .antMatchers("/api/authenticate").permitAll()
                         .antMatchers("/api/notification", "/api/notification/**").hasAnyRole("ADMIN","USER")
+                        .antMatchers("/api/interval", "/api/interval/**").hasAnyRole("ADMIN","USER")
+                        .antMatchers(HttpMethod.GET, "/api/location", "/api/location/**").hasAnyRole("ADMIN","USER")
+                        .antMatchers("/api/location", "/api/location/**").hasAnyRole("ADMIN")
                         .antMatchers("/api/user", "/api/user/**").hasRole("ADMIN")
                         .antMatchers("/api/message", "/api/message/**").hasRole("ADMIN")
-                        //TODO: location and interval API
-
-
-                // all other requests need to be authenticated
                         .anyRequest().authenticated().and()
-                // make sure we use stateless session; session won't be used to
-                // store user's state.
                         .exceptionHandling().authenticationEntryPoint(jwtAuthEntryPoint).and().sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        // Add a filter to validate the tokens with every request
+                        // stateless session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                // filter to validate the tokens with every request
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 

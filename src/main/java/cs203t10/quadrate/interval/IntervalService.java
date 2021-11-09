@@ -45,6 +45,16 @@ public class IntervalService {
         return intervalRepository.save(interval);
     }
 
+    @Transactional
+    public List<Interval> createAllIntervals(List<Interval> intervals)
+            throws IntervalExistsException, UserNotFoundException, LocationNotFoundException {
+        List<Interval> ret = new LinkedList<>();
+        for (Interval interval : intervals) {
+            ret.add(createInterval(interval));
+        }
+        return ret;
+    }
+
     public List<Interval> getAllIntervals() {
         return intervalRepository.findAll();
     }

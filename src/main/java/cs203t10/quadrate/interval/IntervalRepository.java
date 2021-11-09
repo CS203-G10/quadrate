@@ -10,6 +10,8 @@ import java.util.List;
 
 import cs203t10.quadrate.location.*;
 
+import javax.validation.constraints.NotNull;
+
 @Repository
 public interface IntervalRepository extends JpaRepository<Interval, Long> {
         boolean existsById(Long id);

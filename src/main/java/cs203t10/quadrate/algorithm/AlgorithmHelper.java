@@ -35,7 +35,11 @@ public class AlgorithmHelper {
             locationIntervalsMap.get(pointer.getId()).insert(interval);
             pointer = pointer.getParentLocation();
         }
-        approvedIntervals.add(interval.clone());
+        Interval approvedInt = interval.clone();
+        approvedInt.setIsRepeated(false);
+        System.out.println("======================id======================");
+        System.out.println(approvedInt.getId());
+        approvedIntervals.add(approvedInt);
     }
 
     private boolean withinCapacity(Location location, Interval interval) {

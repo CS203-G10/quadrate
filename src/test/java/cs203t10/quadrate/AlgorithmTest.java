@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AlgorithmTest {
     private final User creator = new User("YuXuan");
@@ -34,14 +35,14 @@ public class AlgorithmTest {
         // end time
         cal = Calendar.getInstance();
         cal.set(2021, 10, 21);
-        cal.set(Calendar.HOUR_OF_DAY, 16);
+        cal.set(Calendar.HOUR_OF_DAY, 14);
         cal.set(Calendar.MINUTE, 30);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND, 0);
         endTime = new Timestamp(cal.getTimeInMillis());
     }
 
-    private Scheduler s = new Scheduler();
+    // private Scheduler s = new Scheduler();
 
     @Test
     void AddOneIntervalWithOneAttendee_WithinCurrentLocationCapacity_ReturnAllIntervals() {
@@ -60,12 +61,13 @@ public class AlgorithmTest {
 
         // interval.setType("assigned");
 
-        Interval expected1 = new Interval(startTime, endTime, "assigned", true, 1, creator, int1.getAttendees(),
+        Interval expected1 = new Interval(startTime, endTime, "assigned", false, 1, creator, int1.getAttendees(),
                 int1.getLocation());
 
         intervals.clear();
         intervals.add(expected1);
 
+        assertEquals(intervals.size(), approvedIntervals.size());
         assertResults(intervals, approvedIntervals);
     }
 
@@ -88,14 +90,9 @@ public class AlgorithmTest {
         List<Interval> approvedIntervals = Algorithm.processIntervals(List.of(int1), List.of(bookedLocation));
 
         // interval.setType("assigned");
+        // intervals.clear();
 
-        Interval expected1 = new Interval(startTime, endTime, "assigned", true, 1, creator, int1.getAttendees(),
-                int1.getLocation());
-
-        intervals.clear();
-        intervals.add(expected1);
-
-        assertResults(intervals, approvedIntervals);
+        assertTrue(approvedIntervals.isEmpty());
     }
 
     @Test
@@ -124,13 +121,14 @@ public class AlgorithmTest {
         // int1.setType("assigned");
         // int2.setType("assigned");
 
-        Interval expected1 = new Interval(startTime, endTime, "assigned", true, 1, creator, attendees1, office);
-        Interval expected2 = new Interval(startTime, endTime, "assigned", true, 1, creator, attendees2, office);
+        Interval expected1 = new Interval(startTime, endTime, "assigned", false, 1, creator, attendees1, office);
+        Interval expected2 = new Interval(startTime, endTime, "assigned", false, 1, creator, attendees2, office);
 
         intervals.clear();
         intervals.add(expected1);
         intervals.add(expected2);
 
+        assertEquals(intervals.size(), approvedIntervals.size());
         assertResults(intervals, approvedIntervals);
     }
 
@@ -161,11 +159,12 @@ public class AlgorithmTest {
 
         // int1.setType("assigned");
 
-        Interval expected1 = new Interval(startTime, endTime, "assigned", true, 1, creator, attendees1, office);
+        Interval expected1 = new Interval(startTime, endTime, "assigned", false, 1, creator, attendees1, office);
 
         intervals.clear();
         intervals.add(expected1);
 
+        assertEquals(intervals.size(), approvedIntervals.size());
         assertResults(intervals, approvedIntervals);
     }
 
@@ -200,13 +199,14 @@ public class AlgorithmTest {
         // int1.setType("assigned");
         // int2.setType("assigned");
 
-        Interval expected1 = new Interval(startTime, endTime, "assigned", true, 1, creator, attendees1, mtRoom);
-        Interval expected2 = new Interval(startTime, endTime, "assigned", true, 1, creator, attendees2, mtRoom);
+        Interval expected1 = new Interval(startTime, endTime, "assigned", false, 1, creator, attendees1, mtRoom);
+        Interval expected2 = new Interval(startTime, endTime, "assigned", false, 1, creator, attendees2, mtRoom);
 
         intervals.clear();
         intervals.add(expected1);
         intervals.add(expected2);
 
+        assertEquals(intervals.size(), approvedIntervals.size());
         assertResults(intervals, approvedIntervals);
     }
 
@@ -240,11 +240,12 @@ public class AlgorithmTest {
 
         // int1.setType("assigned");
 
-        Interval expected1 = new Interval(startTime, endTime, "assigned", true, 1, creator, attendees1, mtRoom);
+        Interval expected1 = new Interval(startTime, endTime, "assigned", false, 1, creator, attendees1, mtRoom);
 
         intervals.clear();
         intervals.add(expected1);
 
+        assertEquals(intervals.size(), approvedIntervals.size());
         assertResults(intervals, approvedIntervals);
     }
 
@@ -282,13 +283,14 @@ public class AlgorithmTest {
         // int1.setType("assigned");
         // int2.setType("assigned");
 
-        Interval expected1 = new Interval(startTime, endTime, "assigned", true, 1, creator, attendees1, mtRoom1);
-        Interval expected2 = new Interval(startTime, endTime, "assigned", true, 1, creator, attendees2, mtRoom2);
+        Interval expected1 = new Interval(startTime, endTime, "assigned", false, 1, creator, attendees1, mtRoom1);
+        Interval expected2 = new Interval(startTime, endTime, "assigned", false, 1, creator, attendees2, mtRoom2);
 
         intervals.clear();
         intervals.add(expected1);
         intervals.add(expected2);
 
+        assertEquals(intervals.size(), approvedIntervals.size());
         assertResults(intervals, approvedIntervals);
     }
 
@@ -325,11 +327,12 @@ public class AlgorithmTest {
 
         // int1.setType("assigned");
 
-        Interval expected = new Interval(startTime, endTime, "assigned", true, 1, creator, attendees1, mtRoom1);
+        Interval expected = new Interval(startTime, endTime, "assigned", false, 1, creator, attendees1, mtRoom1);
 
         intervals.clear();
         intervals.add(expected);
 
+        assertEquals(intervals.size(), approvedIntervals.size());
         assertResults(intervals, approvedIntervals);
     }
 
@@ -366,11 +369,12 @@ public class AlgorithmTest {
 
         // int2.setType("assigned");
 
-        Interval expected = new Interval(startTime, endTime, "assigned", true, 2, creator, attendees2, mtRoom2);
+        Interval expected = new Interval(startTime, endTime, "assigned", false, 2, creator, attendees2, mtRoom2);
 
         intervals.clear();
         intervals.add(expected);
 
+        assertEquals(intervals.size(), approvedIntervals.size());
         assertResults(intervals, approvedIntervals);
     }
 
@@ -409,11 +413,102 @@ public class AlgorithmTest {
 
         List<Interval> approvedIntervals = Algorithm.processIntervals(intervals, List.of(office, mtRoom1, mtRoom2));
 
-        Interval expected = new Interval(startTime, et, "assigned", true, 1, creator, attendees2, mtRoom2);
+        Interval expected = new Interval(startTime, et, "assigned", false, 1, creator, attendees2, mtRoom2);
 
         intervals.clear();
         intervals.add(expected);
 
+        assertEquals(intervals.size(), approvedIntervals.size());
+        assertResults(intervals, approvedIntervals);
+    }
+
+    @Test
+    void AddTwoIntervalsWithSameLocationDiffTiming_WithinParentLocationCapacity_ReturnAllIntervals() {
+        System.out.println("------------------------------test 11------------------------------");
+
+        Location office = new Location("Office", 3, true);
+        office.setId(1L);
+        Location mtRoom1 = new Location("Meeting Room 1", 3, true);
+        mtRoom1.setId(2L);
+        mtRoom1.setParentLocation(office);
+
+        Set<User> attendees1 = new HashSet<>();
+        attendees1.add(new User("YuXuan"));
+        attendees1.add(new User("Yuki"));
+
+        Set<User> attendees2 = new HashSet<>();
+        attendees2.add(new User("Joy"));
+        attendees2.add(new User("FZ"));
+        attendees2.add(new User("R"));
+
+        Interval int1 = new Interval(startTime, endTime, "Preference", true, 1, creator, attendees1, mtRoom1);
+        // adding 2 hours to start and end time for int2
+        // to stagger the interval from int1
+        long s = startTime.getTime();
+        long e = endTime.getTime();
+        long m = 2 * 60 * 60 * 1000;
+        Timestamp st = new Timestamp(s + m);
+        Timestamp et = new Timestamp(e + m);
+        Interval int2 = new Interval(st, et, "Preference", true, 1, creator, attendees2, mtRoom1);
+
+        List<Interval> intervals = new ArrayList<>();
+        intervals.add(int1);
+        intervals.add(int2);
+
+        List<Interval> approvedIntervals = Algorithm.processIntervals(intervals, List.of(office, mtRoom1));
+
+        Interval expected1 = new Interval(startTime, endTime, "assigned", false, 1, creator, attendees1, mtRoom1);
+        Interval expected2 = new Interval(st, et, "assigned", false, 1, creator, attendees2, mtRoom1);
+
+        intervals.clear();
+        intervals.add(expected1);
+        intervals.add(expected2);
+
+        assertEquals(intervals.size(), approvedIntervals.size());
+        assertResults(intervals, approvedIntervals);
+    }
+
+    @Test
+    void AddTwoIntervalsWithSameLocationInterceptTiming_ExitsParentLocationCapacity_ReturnFirstIntervalAdded() {
+        System.out.println("------------------------------test 11------------------------------");
+
+        Location office = new Location("Office", 3, true);
+        office.setId(1L);
+        Location mtRoom1 = new Location("Meeting Room 1", 3, true);
+        mtRoom1.setId(2L);
+        mtRoom1.setParentLocation(office);
+
+        Set<User> attendees1 = new HashSet<>();
+        attendees1.add(new User("YuXuan"));
+        attendees1.add(new User("Yuki"));
+
+        Set<User> attendees2 = new HashSet<>();
+        attendees2.add(new User("Joy"));
+        attendees2.add(new User("FZ"));
+        attendees2.add(new User("R"));
+
+        Interval int1 = new Interval(startTime, endTime, "Preference", true, 1, creator, attendees1, mtRoom1);
+        // adding 1 hour to start and end time for int2
+        // intercept timing with int1
+        long s = startTime.getTime();
+        long e = endTime.getTime();
+        long m = 1 * 60 * 60 * 1000;
+        Timestamp st = new Timestamp(s + m);
+        Timestamp et = new Timestamp(e + m);
+        Interval int2 = new Interval(st, et, "Preference", true, 1, creator, attendees2, mtRoom1);
+
+        List<Interval> intervals = new ArrayList<>();
+        intervals.add(int1);
+        intervals.add(int2);
+
+        List<Interval> approvedIntervals = Algorithm.processIntervals(intervals, List.of(office, mtRoom1));
+
+        Interval expected1 = new Interval(startTime, endTime, "assigned", false, 1, creator, attendees1, mtRoom1);
+
+        intervals.clear();
+        intervals.add(expected1);
+
+        assertEquals(intervals.size(), approvedIntervals.size());
         assertResults(intervals, approvedIntervals);
     }
 
@@ -429,8 +524,6 @@ public class AlgorithmTest {
             assertEquals(expected.get(i).getLocation(), results.get(i).getLocation());
         }
     }
-
-    // diff timing same location does it pass?
 
     // private Timestamp startTime {
     // Calendar cal = Calendar.getInstance();

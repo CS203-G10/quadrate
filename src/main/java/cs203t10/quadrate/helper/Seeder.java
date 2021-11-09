@@ -82,11 +82,12 @@ public class Seeder {
         end.set(Calendar.SECOND, 0);
         end.set(Calendar.MILLISECOND, 0);
 
+        // success - first interval
         Interval int1 = new Interval(new Timestamp(start.getTimeInMillis()), new Timestamp(end.getTimeInMillis()),
                 "Preference", false, 1, yx, Set.of(yx, joy), mtRoom1);
         intervalService.createInterval(int1);
 
-        // same time diff location as int1, exits parent location capacity
+        // fail - same time diff location as int1, exits parent location capacity
         Interval int2 = new Interval(new Timestamp(start.getTimeInMillis()), new Timestamp(end.getTimeInMillis()),
                 "Preference", false, 1, fz, Set.of(fz), mtRoom2);
         intervalService.createInterval(int2);
@@ -103,7 +104,7 @@ public class Seeder {
         end.set(Calendar.SECOND, 0);
         end.set(Calendar.MILLISECOND, 0);
 
-        // diff time same location as int1, no conflict
+        // success - diff time same location as int1, no conflict
         Interval int3 = new Interval(new Timestamp(start.getTimeInMillis()), new Timestamp(end.getTimeInMillis()),
                 "Preference", false, 1, fz, Set.of(fz), mtRoom1);
         intervalService.createInterval(int3);

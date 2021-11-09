@@ -73,8 +73,14 @@ public class IntervalService {
     }
 
     public List<Interval> getAllIntervalsBetween(Timestamp startTime, Timestamp endTime) {
-        System.out.println("=================get================");
-        return intervalRepository.findAllByStartTimeGreaterThanEqualAndEndTimeIsLessThanEqual(startTime, endTime);
+        return intervalRepository
+                .findAllByStartTimeGreaterThanEqualAndEndTimeIsLessThanEqualAndIsRepeatedFalse(startTime, endTime);
+    }
+
+    public List<Interval> getAllAssignedIntervalsBetween(Timestamp startTime, Timestamp endTime, String type) {
+        System.out.println("=================get assigned================");
+        return intervalRepository
+                .findAllByStartTimeGreaterThanEqualAndEndTimeIsLessThanEqualAndType(startTime, endTime, type);
     }
 
     public Interval getInterval(Long id) throws IntervalNotFoundException {

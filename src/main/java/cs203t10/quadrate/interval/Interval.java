@@ -129,6 +129,7 @@ public class Interval implements Cloneable {
             Interval clone = (Interval) super.clone();
             // TODO: copy mutable state here, so the clone can't change the internals of the
             // original
+            clone.setId(null);
             clone.setStartTime(startTime);
             clone.setEndTime(endTime);
             clone.setType(type);

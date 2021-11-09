@@ -4,8 +4,6 @@ package cs203t10.quadrate.user;
 import cs203t10.quadrate.exception.UserExistsException;
 import cs203t10.quadrate.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

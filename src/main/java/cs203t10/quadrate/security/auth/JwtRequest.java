@@ -1,6 +1,5 @@
 package cs203t10.quadrate.security.auth;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

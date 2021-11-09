@@ -4,10 +4,8 @@ import cs203t10.quadrate.security.jwt.JwtAuthEntryPoint;
 import cs203t10.quadrate.security.jwt.JwtRequestFilter;
 import cs203t10.quadrate.user.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -31,7 +29,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserDetailsServiceImpl userDetailsService;
 
     private final JwtRequestFilter jwtRequestFilter;
-
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -63,13 +60,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .frameOptions()
                 .deny()
                 .and()
-                // dont authenticate this particular request
-                .authorizeRequests().antMatchers("/api/authenticate").permitAll().
+                .authorizeRequests()
+                        .antMatchers("/api/authenticate").permitAll()
+                        .antMatchers("/api/Message", "/api/Message/**").hasRole("ADMIN")
+
                 // all other requests need to be authenticated
-                        anyRequest().authenticated().and().
+                        .anyRequest().authenticated().and()
                 // make sure we use stateless session; session won't be used to
                 // store user's state.
-                        exceptionHandling().authenticationEntryPoint(jwtAuthEntryPoint).and().sessionManagement()
+                        .exceptionHandling().authenticationEntryPoint(jwtAuthEntryPoint).and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         // Add a filter to validate the tokens with every request
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);

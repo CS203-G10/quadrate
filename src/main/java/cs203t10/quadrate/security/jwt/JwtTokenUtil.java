@@ -3,13 +3,11 @@ package cs203t10.quadrate.security.jwt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import io.jsonwebtoken.*;
-import cs203t10.quadrate.user.User;
 
 
 
@@ -24,7 +22,6 @@ public class JwtTokenUtil {
     private int jwtExpirationMs;
 
     public String generateJwtToken(UserDetails userDetails) {
-
         return Jwts.builder()
                 .setSubject((userDetails.getUsername()))
                 .setIssuedAt(new Date())
@@ -50,7 +47,6 @@ public class JwtTokenUtil {
         } catch (IllegalArgumentException e) {
             logger.error("JWT claims string is empty: {}", e.getMessage());
         }
-
         return false;
     }
 }

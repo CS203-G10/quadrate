@@ -13,8 +13,8 @@ public class LocationController {
     private final LocationService locationService;
 
     @PostMapping
-    public Location addLocation(@RequestBody Location location) {
-        return locationService.addLocation(location);
+    public Location createLocation(@RequestBody Location location) {
+        return locationService.createLocation(location);
     }
 
     @GetMapping

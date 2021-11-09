@@ -8,14 +8,9 @@ import lombok.RequiredArgsConstructor;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.time.DayOfWeek;
-import java.time.Month;
-import java.time.temporal.TemporalAdjusters;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -45,7 +40,7 @@ public class Scheduler {
     // runs at 00:00 on saturday
     // cron format: <second> <minute> <hour> <day-of-month> <month> <day-of-week>
     // @Scheduled(cron = "0 0 * * 6")
-    @Scheduled(cron = "45 30 04 * * *")
+    @Scheduled(cron = "45 06 05 * * *")
     public void schedule() {
         // get all intervals that fall between mon 0.0.0 to sun 23.59.59
         // excluding repeating intervals where date is not relavant
@@ -106,8 +101,6 @@ public class Scheduler {
 
         // change the date of original date
         originalDate.set(dateArr[0], dateArr[1] - 1, dateArr[2]);
-
-        // System.out.println(originalDate);
 
         return new Timestamp(originalDate.getTimeInMillis());
     }

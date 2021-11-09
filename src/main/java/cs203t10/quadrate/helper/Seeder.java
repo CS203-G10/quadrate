@@ -93,20 +93,19 @@ public class Seeder {
         intervalService.createInterval(int2);
 
         start.set(2021, 10, 18);
-        start.set(Calendar.HOUR_OF_DAY, 12);
-        start.set(Calendar.MINUTE, 30);
-        start.set(Calendar.SECOND, 0);
-        start.set(Calendar.MILLISECOND, 0);
-
         end.set(2021, 10, 18);
-        end.set(Calendar.HOUR_OF_DAY, 16);
-        end.set(Calendar.MINUTE, 30);
-        end.set(Calendar.SECOND, 0);
-        end.set(Calendar.MILLISECOND, 0);
 
         // success - diff time same location as int1, no conflict
         Interval int3 = new Interval(new Timestamp(start.getTimeInMillis()), new Timestamp(end.getTimeInMillis()),
                 "Preference", false, 1, fz, Set.of(fz), mtRoom1);
         intervalService.createInterval(int3);
+
+        start.set(Calendar.HOUR_OF_DAY, 16);
+        end.set(Calendar.HOUR_OF_DAY, 18);
+
+        // success - diff time same location as int3, repeated, no conflict
+        Interval int4 = new Interval(new Timestamp(start.getTimeInMillis()), new Timestamp(end.getTimeInMillis()),
+                "Preference", true, 1, fz, Set.of(fz), mtRoom1);
+        intervalService.createInterval(int4);
     }
 }

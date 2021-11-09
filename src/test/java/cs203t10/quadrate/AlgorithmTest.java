@@ -524,41 +524,4 @@ public class AlgorithmTest {
             assertEquals(expected.get(i).getLocation(), results.get(i).getLocation());
         }
     }
-
-    // private Timestamp startTime {
-    // Calendar cal = Calendar.getInstance();
-    // cal.set(2021, 10, 21);
-    // cal.set(Calendar.HOUR_OF_DAY, 12);
-    // cal.set(Calendar.MINUTE, 30);
-    // cal.set(Calendar.SECOND, 0);
-    // cal.set(Calendar.MILLISECOND, 0);
-    // return new Timestamp(cal.getTimeInMillis());
-    // }
-
-    // private Timestamp endTime {
-    // Calendar cal = Calendar.getInstance();
-    // cal.set(2021, 10, 21);
-    // cal.set(Calendar.HOUR_OF_DAY, 16);
-    // cal.set(Calendar.MINUTE, 30);
-    // cal.set(Calendar.SECOND, 0);
-    // cal.set(Calendar.MILLISECOND, 0);
-    // return new Timestamp(cal.getTimeInMillis());
-    // }
-
-    // private User creator {
-    // return new User("YuXuan");
-    // }
-
-    // private Location bookedLocation {
-    // Location location = new Location("Meeting Room", 1, true);
-    // location.setId(1L);
-    // return location;
-    // }
-
-    // private Set<User> getAttendees() {
-    // Set<User> urs = new HashSet<>();
-    // urs.add(new User("YuXuan"));
-    // urs.add(new User("Yuki"));
-    // return urs;
-    // }
 }

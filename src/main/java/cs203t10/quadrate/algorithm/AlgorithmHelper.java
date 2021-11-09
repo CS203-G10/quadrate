@@ -37,8 +37,6 @@ public class AlgorithmHelper {
         }
         Interval approvedInt = interval.clone();
         approvedInt.setIsRepeated(false);
-        System.out.println("======================id======================");
-        System.out.println(approvedInt.getId());
         approvedIntervals.add(approvedInt);
     }
 

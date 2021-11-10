@@ -136,7 +136,7 @@ public class Interval implements Cloneable {
             clone.setIsRepeated(isRepeated);
             clone.setPriority(priority);
             clone.setCreator(creator);
-            clone.setAttendees(attendees);
+            clone.setAttendees(Set.copyOf(attendees));
             clone.setLocation(location);
             return clone;
         } catch (CloneNotSupportedException e) {

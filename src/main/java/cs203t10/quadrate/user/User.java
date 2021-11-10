@@ -40,7 +40,7 @@ public class User {
     // not sure is the data type ok
     // private Double minHr;
 
-    private Integer priority;
+    private Integer credit;
 
     // @JsonManagedReference(value = "user")
     // @JsonBackReference
@@ -85,10 +85,10 @@ public class User {
         this.role = role;
     }
 
-    public User(Long id, String username, String password, String role, Integer priority) {
+    public User(Long id, String username, String password, String role, Integer credit) {
         this.username = username;
         this.password = password;
         this.role = role;
-        this.priority = priority;
+        this.credit = credit;
     }
 }

@@ -40,7 +40,7 @@ public class Scheduler {
     // runs at 00:00 on saturday
     // cron format: <second> <minute> <hour> <day-of-month> <month> <day-of-week>
     // @Scheduled(cron = "0 0 * * 6")
-    @Scheduled(cron = "45 06 05 * * *")
+    @Scheduled(cron = "55 39 08 * * *")
     public void schedule() {
         // get all intervals that fall between mon 0.0.0 to sun 23.59.59
         // excluding repeating intervals where date is not relavant

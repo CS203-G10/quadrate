@@ -38,21 +38,21 @@ public class Seeder {
         yx.setUsername("Yu Xuan");
         yx.setPassword("password");
         yx.setRole("ROLE_USER");
-        yx.setPriority(10);
+        yx.setCredit(10);
         userService.createUser(yx);
 
         User joy = new User();
         joy.setUsername("Joy");
         joy.setPassword("password");
         joy.setRole("ROLE_User");
-        joy.setPriority(10);
+        joy.setCredit(10);
         userService.createUser(joy);
 
         User fz = new User();
         fz.setUsername("Fang Zhou");
         fz.setPassword("password");
         fz.setRole("ROLE_User");
-        fz.setPriority(10);
+        fz.setCredit(10);
         userService.createUser(fz);
 
         // create location

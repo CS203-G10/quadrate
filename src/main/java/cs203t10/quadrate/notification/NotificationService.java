@@ -16,7 +16,8 @@ public class NotificationService {
     private final UserService userService;
   
     public void createNotification(Message message){
-        List <User> users = getTargets(message.getTarget());
+//        List <User> users = getTargets(message.getTarget());
+        List<User> users = userService.getAllUsers();
         for(User user:users){
             notificationRepository.save(new Notification(user, message));
         }

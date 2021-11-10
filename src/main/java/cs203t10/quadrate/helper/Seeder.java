@@ -4,6 +4,8 @@ import cs203t10.quadrate.interval.Interval;
 import cs203t10.quadrate.interval.IntervalService;
 import cs203t10.quadrate.location.Location;
 import cs203t10.quadrate.location.LocationService;
+import cs203t10.quadrate.message.Message;
+import cs203t10.quadrate.message.MessageService;
 import cs203t10.quadrate.user.User;
 import cs203t10.quadrate.user.UserService;
 import lombok.RequiredArgsConstructor;
@@ -23,13 +25,14 @@ public class Seeder {
     private final UserService userService;
     private final IntervalService intervalService;
     private final LocationService locationService;
+    private final MessageService messageService;
 
     @EventListener
     @Order(0)
     public void createGenesisOnStart(ApplicationStartedEvent event) {
         // create users
         User admin = new User();
-        admin.setUsername("admin");
+        admin.setUsername("Admin");
         admin.setPassword("password");
         admin.setRole("ROLE_ADMIN");
         userService.createUser(admin);
@@ -107,5 +110,39 @@ public class Seeder {
         Interval int4 = new Interval(new Timestamp(start.getTimeInMillis()), new Timestamp(end.getTimeInMillis()),
                 "Preference", true, 1, fz, Set.of(fz), mtRoom1);
         intervalService.createInterval(int4);
+
+         //messages
+        Message message1 = new Message();
+        message1.setSubject("Hello");
+        message1.setContent("Welcome to Quadrate.");
+        message1.setTarget(2);
+        message1.setType(1);
+        message1.setUsername("Admin");
+        messageService.createMessage(message1);
+
+        Message message2 = new Message();
+        message2.setSubject("Hello users");
+        message2.setContent("This is an announcement.");
+        message2.setTarget(2);
+        message2.setType(2);
+        message2.setUsername("Admin");
+        messageService.createMessage(message2);
+
+        Message message3 = new Message();
+        message3.setSubject("Hello users");
+        message3.setContent("This is a news.");
+        message3.setTarget(2);
+        message3.setType(2);
+        message3.setUsername("Admin");
+        messageService.createMessage(message3);
+
+        Message message4 = new Message();
+        message4.setSubject("Hello users");
+        message4.setContent("This is a notification.");
+        message4.setTarget(2);
+        message4.setType(1);
+        message4.setUsername("Admin");
+        messageService.createMessage(message4);
+
     }
 }

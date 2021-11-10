@@ -38,21 +38,21 @@ public class Seeder {
         yx.setUsername("Yu Xuan");
         yx.setPassword("password");
         yx.setRole("ROLE_USER");
-        yx.setPriority(10);
+        yx.setCredit(10);
         userService.createUser(yx);
 
         User joy = new User();
         joy.setUsername("Joy");
         joy.setPassword("password");
         joy.setRole("ROLE_User");
-        joy.setPriority(10);
+        joy.setCredit(10);
         userService.createUser(joy);
 
         User fz = new User();
         fz.setUsername("Fang Zhou");
         fz.setPassword("password");
         fz.setRole("ROLE_User");
-        fz.setPriority(10);
+        fz.setCredit(10);
         userService.createUser(fz);
 
         // create location
@@ -82,30 +82,30 @@ public class Seeder {
         end.set(Calendar.SECOND, 0);
         end.set(Calendar.MILLISECOND, 0);
 
+        // success - first interval
         Interval int1 = new Interval(new Timestamp(start.getTimeInMillis()), new Timestamp(end.getTimeInMillis()),
                 "Preference", false, 1, yx, Set.of(yx, joy), mtRoom1);
         intervalService.createInterval(int1);
 
-        // same time diff location as int1, exits parent location capacity
+        // fail - same time diff location as int1, exits parent location capacity
         Interval int2 = new Interval(new Timestamp(start.getTimeInMillis()), new Timestamp(end.getTimeInMillis()),
                 "Preference", false, 1, fz, Set.of(fz), mtRoom2);
         intervalService.createInterval(int2);
 
         start.set(2021, 10, 18);
-        start.set(Calendar.HOUR_OF_DAY, 12);
-        start.set(Calendar.MINUTE, 30);
-        start.set(Calendar.SECOND, 0);
-        start.set(Calendar.MILLISECOND, 0);
-
         end.set(2021, 10, 18);
-        end.set(Calendar.HOUR_OF_DAY, 16);
-        end.set(Calendar.MINUTE, 30);
-        end.set(Calendar.SECOND, 0);
-        end.set(Calendar.MILLISECOND, 0);
 
-        // diff time same location as int1, no conflict
+        // success - diff time same location as int1, no conflict
         Interval int3 = new Interval(new Timestamp(start.getTimeInMillis()), new Timestamp(end.getTimeInMillis()),
                 "Preference", false, 1, fz, Set.of(fz), mtRoom1);
         intervalService.createInterval(int3);
+
+        start.set(Calendar.HOUR_OF_DAY, 16);
+        end.set(Calendar.HOUR_OF_DAY, 18);
+
+        // success - diff time same location as int3, repeated, no conflict
+        Interval int4 = new Interval(new Timestamp(start.getTimeInMillis()), new Timestamp(end.getTimeInMillis()),
+                "Preference", true, 1, fz, Set.of(fz), mtRoom1);
+        intervalService.createInterval(int4);
     }
 }

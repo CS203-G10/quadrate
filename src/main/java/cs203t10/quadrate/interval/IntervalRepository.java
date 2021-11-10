@@ -1,7 +1,6 @@
 package cs203t10.quadrate.interval;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -14,15 +13,16 @@ import cs203t10.quadrate.location.*;
 public interface IntervalRepository extends JpaRepository<Interval, Long> {
         boolean existsById(Long id);
 
+        List<Interval> findAllByStartTimeGreaterThanEqualAndEndTimeIsLessThanEqualAndIsRepeatedFalse(
+                        Timestamp startTime, Timestamp endTime);
+
+        List<Interval> findAllByStartTimeGreaterThanEqualAndEndTimeIsLessThanEqualAndType(Timestamp startTime,
+                        Timestamp endTime, String type);
+
+        List<Interval> findByIsRepeated(Boolean isRepeated);
+
         @Query("select a from Interval a where type = ?1")
         List<Interval> findByType(String type);
-
-        @Modifying
-        @Query("UPDATE Interval SET start_time = :starttime, end_time = :endtime, type = :type, is_repeated = :isRepeated, priority = :priority, user_id = :user_id, location_id = :location_id WHERE id = :id")
-        Integer updateInterval(@Param("id") Long id, @Param("starttime") Timestamp starttime,
-                        @Param("endtime") Timestamp endtime, @Param("type") String type,
-                        @Param("isRepeated") boolean isRepeated, @Param("priority") Integer priority,
-                        @Param("user_id") Long userId, @Param("location_id") Long locationId);
 
         // when adding or updating interval
         // check for any confliction in user schedule(interval)
@@ -32,6 +32,16 @@ public interface IntervalRepository extends JpaRepository<Interval, Long> {
                         @Param("starttime") Timestamp startTime, @Param("endtime") Timestamp endTime,
                         @Param("type") String Type, @Param("isRepeated") boolean isRepeated,
                         @Param("userId") Long userId);
+
+        // @Modifying
+        // @Query("UPDATE Interval SET start_time = :starttime, end_time = :endtime,
+        // type = :type, is_repeated = :isRepeated, priority = :priority, user_id =
+        // :user_id, location_id = :location_id WHERE id = :id")
+        // Integer updateInterval(@Param("id") Long id, @Param("starttime") Timestamp
+        // starttime,
+        // @Param("endtime") Timestamp endtime, @Param("type") String type,
+        // @Param("isRepeated") boolean isRepeated, @Param("priority") Integer priority,
+        // @Param("user_id") Long userId, @Param("location_id") Long locationId);
 
         // ensure the newly added starttime and endtime do intercept into existed
         // intervals

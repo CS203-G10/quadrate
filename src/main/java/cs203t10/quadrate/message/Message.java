@@ -12,7 +12,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -37,17 +36,13 @@ public class Message {
     private Timestamp updateDateTime;
 
     /*
-    * target:
-    * 1 - admin only
-    * 2 - users
-    */
+     * target: 1 - admin only 2 - users
+     */
     @NotNull
     private int target;
 
     /*
-     * type:
-     * 1 - notification
-     * 2 - announcement/news
+     * type: 1 - notification 2 - announcement/news
      */
     @NotNull
     private int type;

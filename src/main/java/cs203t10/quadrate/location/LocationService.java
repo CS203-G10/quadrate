@@ -25,6 +25,10 @@ public class LocationService {
         return locationRepository.findById(id).orElseThrow(() -> new LocationNotFoundException(id));
     }
 
+    public List<Location> getRootLocations() {
+        return locationRepository.findLocationByParentLocationIsNull();
+    }
+
     @Transactional
     public Location updateLocation(Long id, Location location) throws LocationNotFoundException {
         if (!locationRepository.existsById(id)) {

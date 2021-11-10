@@ -14,16 +14,31 @@ import java.util.List;
 public class NotificationService {
     private final NotificationRepository notificationRepository;
     private final UserService userService;
-
-    public void createNotification(Message message) {
-        // TODO: add to targets only
-        List<User> users = userService.getAllUsers();
-        for (User user : users) {
+  
+    public void createNotification(Message message){
+        List <User> users = getTargets(message.getTarget());
+        for(User user:users){
             notificationRepository.save(new Notification(user, message));
         }
     }
+  
+    public List<User> getTargets(int target){
+        List<User> users = userService.getAllUsers();
 
-    public List<Notification> getAllNotifications(String username) {
+        // target 2: all users
+        if(target == 2) {
+            return users;
+        }
+        // target 1: admins only
+        for(User user:users){
+            if(user.getRole().equals("ROLE_USER")){
+                users.remove(user);
+            }
+        }
+        return users;
+    }
+
+    public List<Notification> getAllNotifications(String username){
         User user = userService.getUser(username);
         return notificationRepository.findByRecipientOrderByReadAsc(user);
     }

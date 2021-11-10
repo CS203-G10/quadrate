@@ -45,7 +45,7 @@ public class IntervalServiceTests {
         // tests for create interval
         @Test
         void createInterval_NewInterval_ReturnNewInterval() {
-                Interval newInterval = new Interval(getStartTime(), getEndTime(), "Preference", true, 0, getCreator(),
+                Interval newInterval = new Interval(getStartTime(), getEndTime(), "Preference", false, 1, getCreator(),
                                 getAttendees(), getBookedLocation());
 
                 when(locationService.getLocation(getBookedLocation().getId())).thenReturn(getBookedLocation());
@@ -72,7 +72,7 @@ public class IntervalServiceTests {
 
         @Test
         void createInterval_ConflictedInterval_ThrowIntervalExistsException() {
-                Interval newInterval = new Interval(getStartTime(), getEndTime(), "Preference", true, 0, getCreator(),
+                Interval newInterval = new Interval(getStartTime(), getEndTime(), "Preference", false, 1, getCreator(),
                                 getAttendees(), getBookedLocation());
 
                 when(locationService.getLocation(getBookedLocation().getId())).thenReturn(getBookedLocation());
@@ -96,7 +96,7 @@ public class IntervalServiceTests {
         // tests for get interval/intervals
         @Test
         void getAllIntervals_ReturnAllIntervals() {
-                List<Interval> intervals = List.of(new Interval(getStartTime(), getEndTime(), "Preference", true, 0,
+                List<Interval> intervals = List.of(new Interval(getStartTime(), getEndTime(), "Preference", false, 1,
                                 getCreator(), getAttendees(), getBookedLocation()));
 
                 when(intervalRepository.findAll()).thenReturn(intervals);
@@ -109,7 +109,7 @@ public class IntervalServiceTests {
 
         @Test
         void getInterval_IntervalExists_ReturnInterval() {
-                Interval interval = new Interval(getStartTime(), getEndTime(), "Preference", true, 0, getCreator(),
+                Interval interval = new Interval(getStartTime(), getEndTime(), "Preference", false, 1, getCreator(),
                                 getAttendees(), getBookedLocation());
 
                 when(intervalRepository.findById(interval.getId())).thenReturn(Optional.of(interval));
@@ -134,7 +134,7 @@ public class IntervalServiceTests {
         // tests for update interval
         @Test
         void updateInterval_IntervalExistsAndNoException_ReturnUpdatedInterval() {
-                Interval updatedInterval = new Interval(getStartTime(), getEndTime(), "Preference", true, 0,
+                Interval updatedInterval = new Interval(getStartTime(), getEndTime(), "Preference", false, 1,
                                 getCreator(), getAttendees(), getBookedLocation());
                 updatedInterval.setId(1L);
 
@@ -165,7 +165,7 @@ public class IntervalServiceTests {
 
         @Test
         void updateInterval_IntervalNotFound_ThrowIntervalnotFoundException() {
-                Interval updatedInterval = new Interval(getStartTime(), getEndTime(), "Preference", true, 0,
+                Interval updatedInterval = new Interval(getStartTime(), getEndTime(), "Preference", false, 1,
                                 getCreator(), getAttendees(), getBookedLocation());
                 updatedInterval.setId(1L);
 
@@ -180,7 +180,7 @@ public class IntervalServiceTests {
 
         @Test
         void updateInterval_ConflictingIntervals_ThrowIntervalExistsException() {
-                Interval updatedInterval = new Interval(getStartTime(), getEndTime(), "Preference", true, 0,
+                Interval updatedInterval = new Interval(getStartTime(), getEndTime(), "Preference", false, 1,
                                 getCreator(), getAttendees(), getBookedLocation());
                 updatedInterval.setId(1L);
 
@@ -210,7 +210,7 @@ public class IntervalServiceTests {
         // tests for delete interval
         @Test
         void removeInterval_IntervalFound_ReturnInterval() {
-                Interval interval = new Interval(getStartTime(), getEndTime(), "Preference", true, 0, getCreator(),
+                Interval interval = new Interval(getStartTime(), getEndTime(), "Preference", false, 1, getCreator(),
                                 getAttendees(), getBookedLocation());
 
                 when(intervalRepository.findById(interval.getId())).thenReturn(Optional.of(interval));
@@ -225,7 +225,7 @@ public class IntervalServiceTests {
 
         @Test
         void removeInterval_IntervalNotFound_ThrowIntervalNotFoundException() {
-                Interval interval = new Interval(getStartTime(), getEndTime(), "Preference", true, 0, getCreator(),
+                Interval interval = new Interval(getStartTime(), getEndTime(), "Preference", false, 1, getCreator(),
                                 getAttendees(), getBookedLocation());
 
                 when(intervalRepository.findById(interval.getId())).thenReturn(Optional.empty());
@@ -261,7 +261,7 @@ public class IntervalServiceTests {
         }
 
         private Location getBookedLocation() {
-                return new Location("Desk 1", 1, true);
+                return new Location("Desk 1", 1, false);
         }
 
         private Set<User> getAttendees() {

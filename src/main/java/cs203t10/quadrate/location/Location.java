@@ -54,4 +54,8 @@ public class Location {
         this.capacity = capacity;
         this.bookable = bookable;
     }
+
+    public boolean hasParent() {
+        return parentLocation != null;
+    }
 }

@@ -13,7 +13,7 @@ public class LocationService {
 
     private final LocationRepository locationRepository;
 
-    public Location addLocation(Location location) {
+    public Location createLocation(Location location) {
         return locationRepository.save(location);
     }
 
@@ -23,6 +23,10 @@ public class LocationService {
 
     public Location getLocation(Long id) throws LocationNotFoundException {
         return locationRepository.findById(id).orElseThrow(() -> new LocationNotFoundException(id));
+    }
+
+    public List<Location> getRootLocations() {
+        return locationRepository.findLocationByParentLocationIsNull();
     }
 
     @Transactional

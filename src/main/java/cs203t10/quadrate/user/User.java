@@ -10,6 +10,8 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import java.util.*;
 import cs203t10.quadrate.interval.Interval;
 // import cs203t10.quadrate.userinterval.*;
@@ -40,7 +42,8 @@ public class User {
     // not sure is the data type ok
     // private Double minHr;
 
-    private Integer credit;
+    @NotNull
+    private Integer credit = 10;
 
     // @JsonManagedReference(value = "user")
     // @JsonBackReference

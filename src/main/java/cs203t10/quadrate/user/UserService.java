@@ -1,8 +1,10 @@
+
 package cs203t10.quadrate.user;
 
 import cs203t10.quadrate.exception.UserExistsException;
 import cs203t10.quadrate.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -13,11 +15,13 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public User createUser(User user) throws UserExistsException {
         if (userRepository.existsByUsername(user.getUsername())) {
             throw new UserExistsException(user.getUsername());
         }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
@@ -39,6 +43,7 @@ public class UserService {
             throw new UserExistsException(user.getUsername());
         }
 
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.updateUser(username, user.getUsername(), user.getPassword(), user.getRole());
         return getUser(user.getUsername());
     }

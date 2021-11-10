@@ -99,7 +99,6 @@ public class User implements UserDetails {
         this.role = role;
         this.credit = credit;
     }
-}
 
     public User(String username, String password, String role) {
         this.username = username;

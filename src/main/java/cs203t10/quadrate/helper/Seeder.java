@@ -32,7 +32,7 @@ public class Seeder {
     public void createGenesisOnStart(ApplicationStartedEvent event) {
         // create users
         User admin = new User();
-        admin.setUsername("Admin");
+        admin.setUsername("admin");
         admin.setPassword("password");
         admin.setRole("ROLE_ADMIN");
         userService.createUser(admin);
@@ -117,7 +117,7 @@ public class Seeder {
         message1.setContent("Welcome to Quadrate.");
         message1.setTarget(2);
         message1.setType(1);
-        message1.setUsername("Admin");
+        message1.setUsername("admin");
         messageService.createMessage(message1);
 
         Message message2 = new Message();
@@ -125,7 +125,7 @@ public class Seeder {
         message2.setContent("This is an announcement.");
         message2.setTarget(2);
         message2.setType(2);
-        message2.setUsername("Admin");
+        message2.setUsername("admin");
         messageService.createMessage(message2);
 
         Message message3 = new Message();
@@ -133,7 +133,7 @@ public class Seeder {
         message3.setContent("This is a news.");
         message3.setTarget(2);
         message3.setType(2);
-        message3.setUsername("Admin");
+        message3.setUsername("admin");
         messageService.createMessage(message3);
 
         Message message4 = new Message();
@@ -141,7 +141,7 @@ public class Seeder {
         message4.setContent("This is a notification.");
         message4.setTarget(2);
         message4.setType(1);
-        message4.setUsername("Admin");
+        message4.setUsername("admin");
         messageService.createMessage(message4);
 
     }
